@@ -4,19 +4,18 @@ import './App.css';
 import { connect } from "react-redux";
 
 class App extends Component {
-
-  constructor(props){
-    super(props);
-    this.inputTaskRef = React.createRef();
-  }
-
   render() {
     const {tasks} = this.props;
     return (
       <div>
         <form action="" onSubmit={this.onSubmitAddTask.bind(this)}>
-          <input type="text" ref={this.inputTaskRef}/>
+          <input type="text" ref={(input)=>{this.inputTaskRef = input}}/>
           <button>Add task</button>
+        </form>
+
+        <form action="" onSubmit={this.onSubmitSearchTask.bind(this)}>
+          <input type="text" ref={(input)=>{this.searchTaskRef = input}}/>
+          <button>Search task</button>
         </form>
 
         <div>
@@ -32,16 +31,22 @@ class App extends Component {
     );
   }
 
+  onSubmitSearchTask(e){
+    e.preventDefault();
+    this.props.onSearchTask(this.searchTaskRef.value);
+  }
+
   onSubmitAddTask(e){
     e.preventDefault();
-    this.props.onAddTask(this.inputTaskRef.current.value);
-    this.inputTaskRef.current.value = "";
+    this.props.onAddTask(this.inputTaskRef.value);
+    this.inputTaskRef.value = "";
   }
 }
 
 export default connect(
-    state => ({tasks: state.tasks}),
+    state => ({tasks: state.tasks.filter(el => el.title.includes(state.search))}),
     dispatch => ({
-      onAddTask(title){dispatch({type:"ADD_TASK", payload:title})}
+      onAddTask(title){dispatch({type:"ADD_TASK", payload:title})},
+      onSearchTask(search){dispatch({type:"SEARCH_TASK", payload:search})}
     })
 )(App);
