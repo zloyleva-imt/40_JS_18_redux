@@ -23,7 +23,7 @@ class App extends Component {
           <ul>
             {
               tasks.map((el,i) => (
-                  <li key={i}>{ el }</li>
+                  <li key={i}>{ el.title }</li>
               ))
             }
           </ul>
