@@ -5,6 +5,7 @@ import TasksList from './components/TasksList'
 import Header from './components/Header'
 
 import { connect } from "react-redux";
+import AddNewTask from "./components/AddNewTask";
 
 class App extends Component {
   render() {
@@ -12,10 +13,7 @@ class App extends Component {
     return (
       <Fragment>
           <Header/>
-        <form action="" onSubmit={this.onSubmitAddTask.bind(this)}>
-          <input type="text" ref={(input)=>{this.inputTaskRef = input}}/>
-          <button>Add task</button>
-        </form>
+          <AddNewTask/>
 
         <form action="" onSubmit={this.onSubmitSearchTask.bind(this)}>
           <input type="text" ref={(input)=>{this.searchTaskRef = input}}/>
@@ -32,17 +30,16 @@ class App extends Component {
     this.props.onSearchTask(this.searchTaskRef.value);
   }
 
-  onSubmitAddTask(e){
-    e.preventDefault();
-    this.props.onAddTask(this.inputTaskRef.value);
-    this.inputTaskRef.value = "";
-  }
+  // onSubmitAddTask(e){
+  //   e.preventDefault();
+  //   this.props.onAddTask(this.inputTaskRef.value);
+  //   this.inputTaskRef.value = "";
+  // }
 }
 
 export default connect(
     () => ({}),
     dispatch => ({
-      onAddTask(title){dispatch({type:"ADD_TASK", payload:title})},
       onSearchTask(search){dispatch({type:"SEARCH_TASK", payload:search})}
     })
 )(App);
