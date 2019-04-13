@@ -4,6 +4,32 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { createStore } from 'redux';
+
+const initState = ['something'];
+const reducer = (state=initState,action) => {
+    console.log(action);
+    if(action.type === "CHANGE_STORE"){
+        return [
+            ...state,
+            action.payload
+        ];
+    }
+    return state;
+};
+
+const store = createStore(reducer);
+
+console.log(store);
+console.log(store.getState());
+
+store.subscribe(()=>{
+    console.log("Change store",store.getState());
+});
+
+store.dispatch({type:"CHANGE_STORE", payload: "something too"});
+store.dispatch({type:"CHANGE_STORE", payload: "something other"});
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
