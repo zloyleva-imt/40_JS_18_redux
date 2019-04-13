@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import './App.css';
+
+import TasksList from './components/TasksList'
+import Header from './components/Header'
 
 import { connect } from "react-redux";
 
@@ -7,7 +10,8 @@ class App extends Component {
   render() {
     const {tasks} = this.props;
     return (
-      <div>
+      <Fragment>
+          <Header/>
         <form action="" onSubmit={this.onSubmitAddTask.bind(this)}>
           <input type="text" ref={(input)=>{this.inputTaskRef = input}}/>
           <button>Add task</button>
@@ -18,16 +22,8 @@ class App extends Component {
           <button>Search task</button>
         </form>
 
-        <div>
-          <ul>
-            {
-              tasks.map((el,i) => (
-                  <li key={i}>{ el.title }</li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
+        <TasksList/>
+      </Fragment>
     );
   }
 
@@ -44,7 +40,7 @@ class App extends Component {
 }
 
 export default connect(
-    state => ({tasks: state.tasks.filter(el => el.title.includes(state.search))}),
+    () => ({}),
     dispatch => ({
       onAddTask(title){dispatch({type:"ADD_TASK", payload:title})},
       onSearchTask(search){dispatch({type:"SEARCH_TASK", payload:search})}
