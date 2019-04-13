@@ -40,7 +40,7 @@ class App extends Component {
 }
 
 export default connect(
-    state => ({tasks: state}),
+    state => ({tasks: state.tasks}),
     dispatch => ({
       onAddTask(title){dispatch({type:"ADD_TASK", payload:title})}
     })
